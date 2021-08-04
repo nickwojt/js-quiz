@@ -20,6 +20,15 @@ header {
   color: purple;
 }
 
+#highscore {
+  text-decoration: underline;
+}
+
+#highscore:hover {
+  cursor: pointer;
+  color: plum;
+}
+
 main {
   display: flex;
   justify-content: center;
@@ -79,9 +88,5 @@ main {
 }
 
 .hide {
-  display: none;
-}
-
-.show-end {
   display: none;
 }
