@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>JS Quiz</title>
-    <link rel="stylesheet" href="./assets/css/style.css" />
+    <link rel="stylesheet" href="./style.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -16,22 +16,36 @@
   <body>
     <header>
       <h2 id="highscore">View Highscores</h2>
-      <h2 id="center">Score: <span id="score"></span></h2>
-      <h2 id="right">Timer: <span id="timer"></span></h2>
+      <h2>Score: <span id="score"></span></h2>
+      <h2>Timer: <span id="timer"></span></h2>
     </header>
-    <main class="main">
-      <div class="instructions">
-        <h1>Coding Quiz Challenge</h1>
-        <p>
-          Try to answer the following questions within the time limit. Wrong
-          answers will deduct time from the timer. Each right question counts as
-          1 point.
-        </p>
-      </div>
-      <div id="button">
-        <button id="start">Start</button>
+    <main>
+      <div class="container">
+        <div class="question-container" class="hide">
+          <div id="question">
+            Click Start to begin quiz. The timer is set for 60 seconds and each
+            wrong answer deducts 15 seconds. Your score is the amount of answers
+            you get right in the allowed time.
+          </div>
+          <div id="answer-buttons" class="btn-grid hide">
+            <button class="btn choice" id="btn-1">Answer 1</button>
+            <button class="btn choice" id="btn-2">Answer 2</button>
+            <button class="btn choice" id="btn-3">Answer 3</button>
+            <button class="btn choice" id="btn-4">Answer 4</button>
+          </div>
+        </div>
+        <div class="controls">
+          <button id="start-btn" class="start-btn btn">Start</button>
+          <button id="next-btn" class="next-btn btn hide">Next</button>
+        </div>
+        <div id="output" class="hide"></div>
       </div>
     </main>
-    <script src="./assets/js/script.js"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"
+    ></script>
+    <script src="./script.js"></script>
   </body>
 </html>

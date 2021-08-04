@@ -5,61 +5,79 @@
   font-family: "Ubuntu", sans-serif;
 }
 
+body {
+  padding: 0;
+  margin: 0;
+  background-color: slategray;
+}
+
 header {
-  width: 100%;
-  height: 10vh;
   display: flex;
   justify-content: space-around;
-}
-
-#highscore {
+  align-items: center;
+  width: 100vw;
+  height: 10vh;
   color: purple;
 }
 
-#center {
-  color: purple;
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 90vh;
 }
 
-#right {
-  color: purple;
-}
-
-.main {
-  margin-left: 25%;
-  margin-top: 5%;
+.container {
   width: 50%;
-  height: 100%;
-  text-align: center;
+  max-width: 80%;
+  background-color: white;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 0 0 10px 2px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
 }
 
-button {
-  font-size: 1em;
-  width: fit-content;
-  height: fit-content;
-  color: white;
+#question {
+  margin: 20px;
+}
+
+.btn-grid {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.btn {
   background-color: purple;
-  border-radius: 10px;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 5px 10px;
+  font-size: 2rem;
+  outline: none;
+  color: white;
 }
 
-button:hover {
+.btn:hover {
   background-color: plum;
 }
 
-.buttons {
+.controls {
   display: flex;
-  align-items: flex-start;
-  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-.buttons button {
-  margin: 5px;
-}
-
-.outcome {
+#output {
   border-top: 2px solid black;
-  height: fit-content;
+  margin: 20px;
 }
 
-.outcome p {
-  font-size: 20px;
+.hide {
+  display: none;
 }

@@ -1,94 +1,87 @@
-var timer = document.querySelector("#timer");
-var start = document.querySelector("#start");
-var main = document.querySelector(".main");
-var time = 60;
+var startButton = $("#start-btn");
+var questionContainerEl = $('.question-container');
+var questionButtonsEl = $('.btn-grid');
+var outputEl = $('#output');
+var questionEl = $('#question');
+var answerButtonsEl = $('#answer-buttons');
+var button1 = $('#btn-1');
+var button2 = $('#btn-2');
+var button3 = $('#btn-3');
+var button4 = $('#btn-4');
+var choice = [button1, button2, button3, button4];
+var i = 0;
+var score = 0;
+var timer = 60;
 
-var questions = {
-    question1: "What is a function?",
-    question2: "How do you link your JS file to your HTML file?",
-    question3: "The external JS file contains the script tag?",
-    question4: "How do you add a comment in JS?"
-}
-// viewHighscores()
-function setTime() {
-    // Sets interval in variable
-    var timerInterval = setInterval(function() {
-    time--;
-    timer.textContent = time;
 
-    if(time === 0) {
-      // Stops execution of action at set interval
-      clearInterval(timerInterval);
-      // Calls function to create and append image
-      sendMessage();
+
+
+var questions = [
+    {
+        question: "What is a function?",
+        choices: ['A set of instructions', 'A variable', 'A loop', 'An array'],
+        answer: 'A set of instructions'   
+    },
+    {
+        question: "How do you link your JS file to your HTML file?",
+        choices: ['<link>', '<head>', '<body>', '<script>'],
+        answer: '<script>'
+    },
+    {
+        question: "How do you add a comment in JS?",
+        choices: ['//comment', '<!--comment-->', '/*comment*/', 'comment:'],
+        answer: '//comment'
+    },
+    {
+        question: 'What is the correct way to write "Hello World" in an alert box?',
+        choices: ['msgBox("Hello World")', 'alertBox("Hello World")', 'alert("Hello World")', 'msg("Hello World")'],
+        answer: 'alert("Hello World")'
     }
+]
 
-  }, 1000); //milliseconds = 1 second
+startButton.on("click", startQuiz);
+
+
+function startQuiz() {
+    startButton.addClass('hide');
+    questionContainerEl.removeClass('hide');
+    questionButtonsEl.removeClass('hide');
+    outputEl.removeClass('hide');
+    startQuestions();
 }
 
-// function sendMessage() {
 
-// }
-
-
-function clearcontent(element) {
-    document.querySelector(element).innerHTML = "";
+function startQuestions() {
+    for (i; i < questions.length; i++) {
+        questionEl.text(questions[i].question);
+        choice[0].text(questions[i].choices[0]);
+        choice[1].text(questions[i].choices[1]);
+        choice[2].text(questions[i].choices[2]);
+        choice[3].text(questions[i].choices[3]);
+        return selectAnswer();
+    }
 }
 
-start.addEventListener("click", function(event){
-    event.preventDefault();
-    init();
-    setTime();
-})
 
-function init() {
-    clearcontent(".main");
-    firstQuestion();
-}
+// need to figure out dataset values, and keep copying and pasting, get timer imported, and get score going
 
-function firstQuestion() {
-    var question = document.createElement("h1");
-    var buttons = document.createElement("div");
-    buttons.setAttribute("class", "buttons")
-    var button1 = document.createElement("button");
-    var button2 = document.createElement("button");
-    var button3 = document.createElement("button");
-    var button4 = document.createElement("button");
-    var outcomeCont = document.createElement("div")
-    outcomeCont.setAttribute("class", "outcome");
-    var outcome = document.createElement("p")
-    button1.textContent = "A set of instructions";
-    button2.textContent = "A variable";
-    button3.textContent = "A loop";
-    button4.textContent = "An array";
-    question.textContent = questions.question1;
-    main.appendChild(question);
-    main.appendChild(buttons);
-    buttons.appendChild(button1);
-    buttons.appendChild(button2);
-    buttons.appendChild(button3);
-    buttons.appendChild(button4);
-    main.appendChild(outcomeCont);
-    outcomeCont.appendChild(outcome);
-    button1.addEventListener("click", function(event){
-        event.defaultPrevent();
-        outcome.textContent = "Correct";
+
+function selectAnswer() {
+    answerButtonsEl.on('click', function(event){
+        event.preventDefault();
+        var selection = $(event.target).text();
+        if (selection === questions[i].answer) {
+            console.log('right');
+            score++;
+            $('#score').text(score);
+            return;
+        } else {
+            console.log("Wrong");
+            timer -= 15;
+            console.log(timer)
+        }
+        console.log(i);
+        return;
     })
+    return;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
