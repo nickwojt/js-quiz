@@ -9,11 +9,11 @@ var button2 = $('#btn-2');
 var button3 = $('#btn-3');
 var button4 = $('#btn-4');
 var choice = [button1, button2, button3, button4];
-var i = 0;
 var score = 0;
 var timer = 60;
-
-
+$('#timer').text(timer)
+var highscore = $('#highscores');
+var finalScore = localStorage.getItem('score');
 
 
 var questions = [
@@ -40,48 +40,135 @@ var questions = [
 ]
 
 startButton.on("click", startQuiz);
-
+questionEl.removeClass('hide');
 
 function startQuiz() {
     startButton.addClass('hide');
     questionContainerEl.removeClass('hide');
     questionButtonsEl.removeClass('hide');
     outputEl.removeClass('hide');
-    startQuestions();
+    firstQuestion();
 }
 
 
-function startQuestions() {
-    for (i; i < questions.length; i++) {
-        questionEl.text(questions[i].question);
-        choice[0].text(questions[i].choices[0]);
-        choice[1].text(questions[i].choices[1]);
-        choice[2].text(questions[i].choices[2]);
-        choice[3].text(questions[i].choices[3]);
-        return selectAnswer();
-    }
-}
+
+function firstQuestion() {
+    
+    questionEl.text(questions[0].question);
+    choice[0].text(questions[0].choices[0]);
+    choice[1].text(questions[0].choices[1]);
+    choice[2].text(questions[0].choices[2]);
+    choice[3].text(questions[0].choices[3]);
 
 
-// need to figure out dataset values, and keep copying and pasting, get timer imported, and get score going
-
-
-function selectAnswer() {
     answerButtonsEl.on('click', function(event){
         event.preventDefault();
         var selection = $(event.target).text();
-        if (selection === questions[i].answer) {
-            console.log('right');
+        if (selection === questions[0].answer) {
             score++;
             $('#score').text(score);
-            return;
+            outputEl.text("Correct");
+            secondQuestion();
         } else {
-            console.log("Wrong");
             timer -= 15;
-            console.log(timer)
+            outputEl.text("Wrong");
+            secondQuestion();
         }
-        console.log(i);
-        return;
     })
-    return;
 }
+
+
+
+function secondQuestion() {
+    
+    questionEl.text(questions[1].question);
+    choice[0].text(questions[1].choices[0]);
+    choice[1].text(questions[1].choices[1]);
+    choice[2].text(questions[1].choices[2]);
+    choice[3].text(questions[1].choices[3]);
+
+
+    answerButtonsEl.on('click', function(event){
+        event.preventDefault();
+        var selection = $(event.target).text();
+        if (selection === questions[1].answer) {
+            score++;
+            $('#score').text(score);
+            outputEl.text("Correct");
+            thirdQuestion();
+        } else {
+            timer -= 15;
+            outputEl.text("Wrong");
+            thirdQuestion();
+        }
+    })
+}
+
+
+
+function thirdQuestion() {
+    
+    questionEl.text(questions[2].question);
+    choice[0].text(questions[2].choices[0]);
+    choice[1].text(questions[2].choices[1]);
+    choice[2].text(questions[2].choices[2]);
+    choice[3].text(questions[2].choices[3]);
+
+
+    answerButtonsEl.on('click', function(event){
+        event.preventDefault();
+        var selection = $(event.target).text();
+        if (selection === questions[2].answer) {
+            score++;
+            $('#score').text(score);
+            outputEl.text("Correct");
+            fourthQuestion();
+        } else {
+            timer -= 15;
+            outputEl.text("Wrong");
+            fourthQuestion();
+        }
+    })
+}
+
+
+
+function fourthQuestion() {
+    
+    questionEl.text(questions[3].question);
+    choice[0].text(questions[3].choices[0]);
+    choice[1].text(questions[3].choices[1]);
+    choice[2].text(questions[3].choices[2]);
+    choice[3].text(questions[3].choices[3]);
+
+
+    answerButtonsEl.on('click', function(event){
+        event.preventDefault();
+        var selection = $(event.target).text();
+        if (selection === questions[3].answer) {
+            score++;
+            $('#score').text(score);
+            outputEl.text("Correct");
+            highscores();
+        } else {
+            timer -= 15;
+            outputEl.text("Wrong");
+            highscores();
+        }
+    })
+}
+
+
+function highscores() {
+    questionEl.addClass('hide');
+    questionButtonsEl.addClass('hide');
+    outputEl.addClass('hide');
+    highscore.removeClass('show-end');
+    var initials = $('#input').val()
+    console.log(initials)
+    localStorage.setItem('initials', initials)
+    highscore.append('<div>' + initials + ' = ' + score)
+
+}
+
+//got to figure out input and button values and diplay them, local storage, timer, and view highscores screen

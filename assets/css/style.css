@@ -81,3 +81,7 @@ main {
 .hide {
   display: none;
 }
+
+.show-end {
+  display: none;
+}
