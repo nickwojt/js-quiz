@@ -11,9 +11,7 @@ var button4 = $('#btn-4');
 var choice = [button1, button2, button3, button4];
 var score = 0;
 var timer = 60;
-$('#timer').text(timer)
 var highscore = $('#highscores');
-var finalScore = localStorage.getItem('score');
 var scorePageEl = $('#score-page');
 var viewHighscores = $('#highscore');
 var index = 0;
@@ -49,118 +47,42 @@ function startQuiz() {
     questionContainerEl.removeClass('hide');
     questionButtonsEl.removeClass('hide');
     outputEl.removeClass('hide');
+    setTime();
     getQuestions();
 }
 
+function getQuestions() {
+    var currentQuestion = questions[index];
+    questionEl.text(currentQuestion.question);
+    choice[0].text(currentQuestion.choices[0]);
+    choice[1].text(currentQuestion.choices[1]);
+    choice[2].text(currentQuestion.choices[2]);
+    choice[3].text(currentQuestion.choices[3]);
+    answerButtonsEl.unbind("click").click(selectAnswer);
+}
 
 
-// function firstQuestion() {
-//     console.log(score)
-//     questionEl.text(questions[0].question);
-//     choice[0].text(questions[0].choices[0]);
-//     choice[1].text(questions[0].choices[1]);
-//     choice[2].text(questions[0].choices[2]);
-//     choice[3].text(questions[0].choices[3]);
+function selectAnswer(event) {
+        event.preventDefault();
+        var selection = $(event.target).text();
+        if (selection === questions[index].answer) {
+            score++;
+            $('#score').text(score);
+            outputEl.text("Correct");
+        } else {
+            timer -= 15;
+            outputEl.text("Wrong");
+            // console.log(score)
+        }
+    
+    index++;
+    if (index === questions.length) {
+        highscores();
+    } else {
+        getQuestions();
+    }
+}
 
-
-//     answerButtonsEl.on('click', function(event){
-//         event.preventDefault();
-//         var selection = $(event.target).text();
-//         if (selection === questions[0].answer) {
-//             score++;
-//             $('#score').text(score);
-//             outputEl.text("Correct");
-//             return secondQuestion();
-//         } else {
-//             timer -= 15;
-//             outputEl.text("Wrong");
-//             return secondQuestion();
-//         }
-//     })
-// }
-
-
-
-// function secondQuestion() {
-//     console.log(score)
-//     questionEl.text(questions[1].question);
-//     choice[0].text(questions[1].choices[0]);
-//     choice[1].text(questions[1].choices[1]);
-//     choice[2].text(questions[1].choices[2]);
-//     choice[3].text(questions[1].choices[3]);
-
-
-//     answerButtonsEl.on('click', function(event){
-//         event.preventDefault();
-//         var selection = $(event.target).text();
-//         if (selection === questions[1].answer) {
-//             score++;
-//             $('#score').text(score);
-//             outputEl.text("Correct");
-//             return thirdQuestion();
-//         } else {
-//             timer -= 15;
-//             outputEl.text("Wrong");
-//             return thirdQuestion();
-//         } 
-//     })
-// }
-
-
-
-// function thirdQuestion() {
-//     console.log(score)
-//     questionEl.text(questions[2].question);
-//     choice[0].text(questions[2].choices[0]);
-//     choice[1].text(questions[2].choices[1]);
-//     choice[2].text(questions[2].choices[2]);
-//     choice[3].text(questions[2].choices[3]);
-
-
-//     answerButtonsEl.on('click', function(event){
-//         event.preventDefault();
-//         var selection = $(event.target).text();
-//         if (selection === questions[2].answer) {
-//             score++;
-//             $('#score').text(score);
-//             outputEl.text("Correct");
-//             return fourthQuestion();
-//         } else {
-//             timer -= 15;
-//             outputEl.text("Wrong");
-//             return fourthQuestion();
-//         }
-//     })
-// }
-
-
-
-// function fourthQuestion() {
-//     console.log(score)
-//     questionEl.text(questions[3].question);
-//     choice[0].text(questions[3].choices[0]);
-//     choice[1].text(questions[3].choices[1]);
-//     choice[2].text(questions[3].choices[2]);
-//     choice[3].text(questions[3].choices[3]);
-
-
-//     answerButtonsEl.on('click', function(event){
-//         event.preventDefault();
-//         var selection = $(event.target).text();
-//         console.log($(event.target).text());
-//         if (selection === questions[3].answer) {
-//             score++;
-//             $('#score').text(score);
-//             outputEl.text("Correct");
-//             return highscores();
-//         } else {
-//             timer -= 15;
-//             outputEl.text("Wrong");
-//             console.log(score)
-//             return highscores();
-//         }
-//     })
-// }
 
 
 function highscores() {
@@ -170,13 +92,13 @@ function highscores() {
     highscore.removeClass('hide');
     highscore.on('submit', function(event){
         event.preventDefault();
-        var initials = $('#initials').val()
+        var initials = $('#initials').val();
         localStorage.setItem('initials', initials);
+        localStorage.setItem('score', score);
         scorePageEl.append('<div>' + initials + ' = ' + score + '</div>');
         scorePage();
     })
 }
-
 
 
 function scorePage() {
@@ -189,43 +111,29 @@ function scorePage() {
     $('#back').on('click', function(){
         window.location.replace('index.html');
     })
-    
+    scorePageEl.append('<div>' + localStorage.getItem('initials') + ' = ' + localStorage.getItem('score') + '</div>').addClass('stored');
+    $('#clear').on('click',function(){
+        localStorage.clear();
+    })
 }
 
 
-function getQuestions() {
-    var currentQuestion = questions[index];
-    questionEl.text(currentQuestion.question);
-    choice[0].text(currentQuestion.choices[0]);
-    choice[1].text(currentQuestion.choices[1]);
-    choice[2].text(currentQuestion.choices[2]);
-    choice[3].text(currentQuestion.choices[3]);
-    answerButtonsEl.on('click', selectAnswer);
-}
 
+function setTime() {
+  // Sets interval in variable
+  var timerInterval = setInterval(function() {
+    timer--;
+    $('#timer').text(timer);
 
-function selectAnswer(event) {
-        event.preventDefault();
-        var selection = $(event.target).text();
-        console.log($(event.target).text());
-        // console.log(this.value)
-        if (selection === questions[index].answer) {
-            score++;
-            $('#score').text(score);
-            outputEl.text("Correct");
-            
-        } else {
-            timer -= 15;
-            outputEl.text("Wrong");
-            // console.log(score)
-            
-        }
-    
-    index++;
-    console.log(index)
-    if (index === questions.length) {
-        highscores();
-    } else {
-        getQuestions();
+    if(timer <= 0) {
+      // Stops execution of action at set interval
+      clearInterval(timerInterval);
+      // Calls function to create and append image
+      highscores();
     }
+    if (index === questions.length) {
+        clearInterval(timerInterval);
+    }
+
+  }, 1000); //milliseconds = 1 second
 }
